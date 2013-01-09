@@ -1,6 +1,25 @@
 {
-	"name": "paasmaker/interface",
+    "name": "paasmaker/interface",
+    "type": "library",
+    "description": "Paasmaker PHP interface",
+    "keywords": [],
+    "homepage": "http://paasmaker.com",
+    "licence": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Daniel Foote",
+            "email": "freefoote@paasmaker.com"
+        }
+    ],
     "require": {
-        "symfony/yaml": "2.1.*"
+        "php": ">=5.3",
+        "symfony/yaml": "2.1.6"
+    },
+    "autoload": {
+        "psr-0": { "Paasmaker": "" }
+    },
+    "target-dir": "Paasmaker",
+    "require-dev": {
+        "phpunit/phpunit": "3.7.10"
     }
 }
