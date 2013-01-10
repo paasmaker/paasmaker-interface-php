@@ -5,7 +5,7 @@ namespace Paasmaker;
 /**
  * An exception thrown if something goes wrong inside the interface.
  */
-class InterfaceException extends Exception
+class PmInterfaceException extends Exception
 {
 
 }
@@ -16,7 +16,7 @@ class InterfaceException extends Exception
  * and also provide the ability to read configuration files
  * to supply the values for development.
  */
-class Interface
+class PmInterface
 {
     /**
      * Create a new interface object. Supply an array
