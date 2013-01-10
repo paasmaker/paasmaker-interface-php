@@ -5,7 +5,7 @@ namespace Paasmaker;
 /**
  * An exception thrown if something goes wrong inside the interface.
  */
-class PmInterfaceException extends Exception
+class PmInterfaceException extends \Exception
 {
 
 }
@@ -28,7 +28,7 @@ class PmInterface
      * configuration via YAML files. This requires the
      * Symfony YAML component to be able to be loaded
      * via PSR-0 autoloading.
-     * @throws InterfaceException when unable to load a
+     * @throws PmInterfaceException when unable to load a
      * configuration file.
      */
     public function __construct(array $overridePaths, $yamlSupport = FALSE)
@@ -77,21 +77,26 @@ class PmInterface
 
                     if($parsed === FALSE)
                     {
-                        throw new InterfaceException("Unable to parse json file " . $path);
+                        throw new PmInterfaceException("Unable to parse json file " . $path);
                     }
                 }
                 else if($this->_yamlSupport && substr($path, -3) == "yml")
                 {
                     // YAML format.
-                    $yaml = new Symfony\Component\Yaml\Parser();
+                    $yaml = new \Symfony\Component\Yaml\Parser();
                     $parsed = $yaml->parse($contents);
                 }
+                else
+                {
+                    throw new PmInterfaceException("Unknown configuration file format.");
+                }
 
-                $this->_storeConfiguration($parsed);
+                $this->_storeConfiguration($path, $parsed);
+                return;
             }
         }
 
-        throw new InterfaceException("Unable to find an override configuration to load.");
+        throw new PmInterfaceException("Unable to find an override configuration to load.");
     }
 
     private function _storeConfiguration($filename, $data)
@@ -113,7 +118,7 @@ class PmInterface
         // Check for required sections.
         if(FALSE === array_key_exists('application', $data))
         {
-            throw new InterfaceException("You must supply an application section in your configuration.");
+            throw new PmInterfaceException("You must supply an application section in your configuration.");
         }
 
         // Check for required keys.
@@ -122,7 +127,7 @@ class PmInterface
         {
             if(FALSE === array_key_exists($key, $data['application']))
             {
-                throw new InterfaceException("Missing required key " . $key . " in application configuration.");
+                throw new PmInterfaceException("Missing required key " . $key . " in application configuration.");
             }
         }
 
@@ -136,7 +141,7 @@ class PmInterface
      *
      * @param string name The name of the service to fetch.
      * @return array The credentials for the named service.
-     * @throws InterfaceException when the named service
+     * @throws PmInterfaceException when the named service
      * does not exist.
      */
     public function getService($name)
@@ -147,7 +152,7 @@ class PmInterface
         }
         else
         {
-            throw new InterfaceException("No such service " . $name);
+            throw new PmInterfaceException("No such service " . $name);
         }
     }
 
@@ -171,16 +176,7 @@ class PmInterface
      *
      * user: %pm.<service>.<key>%
      *
-     * For example, a MySQL service might look like this:
-     * services:
-     *    pdo:
-     *      class: PDO
-     *      arguments:
-     *        dsn:      "mysql:dbname=%pm.mysql.database%;host=%pm.mysql.hostname%;port=%pm.mysql.port"
-     *        user:     %pm.mysql.username%
-     *        password: %pm.mysql.password%
-     *
-     * This works for any other services values.
+     * Refer to the documentation for a full treatment of how to do this.
      *
      * @return void
      */
