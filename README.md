@@ -1,6 +1,11 @@
 Paasmaker Interface Library
 ===========================
 
+This library is intended to make it easy to parse out the services metadata for use
+in your PHP application. In addition, it provides the ability to load configuration
+files to supply the services values for development, when not running on Paasmaker.
+This allows your code to use the exact same code paths regardless of where it is running.
+
 Installation and Use
 --------------------
 
@@ -57,6 +62,36 @@ values in the format "%pm.<service name>.<service value>". For example,
 your database setup might look as follows:
 
 	TODO: Complete this.
+
+Example YAML configuration file
+-------------------------------
+
+	services:
+	  parameters:
+	    foo: bar
+
+	application:
+	  name: test
+	  version: 1
+	  workspace: Test
+	  workspace_stub: test
+
+Example JSON configuration file
+-------------------------------
+
+	{
+		"services": {
+			"parameters": {
+				"foo": "bar"
+			}
+		},
+		"application": {
+			"name": "test",
+			"version": 1,
+			"workspace": "Test",
+			"workspace_stub": "test"
+		}
+	}
 
 Testing
 -------
