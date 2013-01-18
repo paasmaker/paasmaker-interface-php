@@ -38,6 +38,8 @@ class PmInterface
         $this->_isOnPaasmaker = FALSE;
         $this->_variables = Array();
         $this->_services = Array();
+        // It's over 9000.
+        $this->_port = 9001;
 
         $this->_parseMetadata();
     }
@@ -53,6 +55,13 @@ class PmInterface
             $this->_isOnPaasmaker = TRUE;
             $this->_variables = json_decode($metadata, TRUE);
             $this->_services = json_decode($services, TRUE);
+
+            $port = getenv("PM_PORT");
+
+            if($port !== FALSE)
+            {
+                $this->_port = (int)$port;
+            }
         }
         else
         {
@@ -113,6 +122,11 @@ class PmInterface
         if(FALSE === array_key_exists('node', $data))
         {
             $data['node'] = array();
+        }
+
+        if(array_key_exists('port', $data))
+        {
+            $this->_port = (int)$data['port'];
         }
 
         // Check for required sections.
@@ -265,5 +279,16 @@ class PmInterface
     public function getWorkspaceTags()
     {
         return $this->_variables['workspace'];
+    }
+
+    /**
+     * Return the TCP port that this application should be listening on.
+     * This isn't that useful for PHP applications, but is here for completeness.
+     *
+     * @return int The TCP port to listen on.
+     */
+    public function getPort()
+    {
+        return $this->_port;
     }
 }

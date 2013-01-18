@@ -52,6 +52,8 @@ class PmInterfaceTest extends \PHPUnit_Framework_TestCase
 			),
 			TRUE
 		);
+
+		$this->assertEquals($interface->getPort(), 9002);
 	}
 
 	public function testJsonConfig()
@@ -126,6 +128,7 @@ class PmInterfaceTest extends \PHPUnit_Framework_TestCase
 
 		putenv('PM_SERVICES=' . json_encode($servicesRaw));
 		putenv('PM_METADATA=' . json_encode($metadataRaw));
+		putenv('PM_PORT=42600');
 
 		$interface = new \Paasmaker\PmInterface(array());
 
@@ -153,6 +156,8 @@ class PmInterfaceTest extends \PHPUnit_Framework_TestCase
 		{
 			$this->assertTrue(TRUE, "Threw exception correctly.");
 		}
+
+		$this->assertEquals($interface->getPort(), 42600);
 	}
 
 	protected function _confirmTestConfiguration($interface)

@@ -8,3 +8,5 @@ application:
   version: 1
   workspace: Test
   workspace_stub: test
+
+port: 9002
