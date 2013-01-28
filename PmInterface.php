@@ -303,7 +303,7 @@ class PmInterface
      */
     public function getSymfonyEnvironment($default)
     {
-        $workspaceTags = $this->_getWorkspaceTags();
+        $workspaceTags = $this->getWorkspaceTags();
 
         if(array_key_exists('SYMFONY_ENV', $workspaceTags))
         {
