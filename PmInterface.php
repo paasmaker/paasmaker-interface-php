@@ -291,4 +291,27 @@ class PmInterface
     {
         return $this->_port;
     }
+
+    /**
+     * Get the symfony environment, or return the default environment instead.
+     *
+     * This looks for a tag on the workspace callled 'SYMFONY_ENV' and returns
+     * that value if set. Otherwise, it returns the default supplied.
+     *
+     * @param string $default The default environment.
+     * @return string The environment to use.
+     */
+    public function getSymfonyEnvironment($default)
+    {
+        $workspaceTags = $this->_getWorkspaceTags();
+
+        if(array_key_exists('SYMFONY_ENV', $workspaceTags))
+        {
+            return $workspaceTags['SYMFONY_ENV'];
+        }
+        else
+        {
+            return $default;
+        }
+    }
 }
