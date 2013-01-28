@@ -184,4 +184,16 @@ class PmInterfaceTest extends \PHPUnit_Framework_TestCase
 			$this->assertTrue(TRUE, "Threw exception correctly.");
 		}
 	}
+
+	public function testSymfony()
+	{
+		$interface = new \Paasmaker\PmInterface(array($this->_getFixturePath('symfony2.yml')), TRUE);
+
+		$interface->symfonyUnpack();
+
+		$this->assertTrue(array_key_exists('SYMFONY__PM__PARAMETERS__FOO', $_SERVER), "Missing service key.");
+		$this->assertEquals($_SERVER['SYMFONY__PM__PARAMETERS__FOO'], 'bar', "Incorrect service key.");
+
+		$this->assertEquals($interface->getSymfonyEnvironment('prod'), "staging", "Incorrect environment.");
+	}
 }
