@@ -23,9 +23,9 @@ JSON format.
 
 Once you're set up, you can do the following in your startup code:
 
-	$interface = \Paasmaker\PmInterface(array('../my-project.json'));
+	$interface = new \Paasmaker\PmInterface(array('../my-project.json'));
 	// Or to allow loading YAML files:
-	$interface = \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
+	$interface = new \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
 
 	// This returns true if running on Paasmaker.
 	$interface.isOnPaasmaker();
@@ -54,7 +54,7 @@ Add the interface to your composer.json file for your project, and then install.
 
 Now edit app/AppKernel.php, and in the construct method, add the following lines:
 
-	$interface = \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
+	$interface = new \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
 	$interface->symfonyUnpack();
 
 Then, in your YML files, you can refer to the services values by inserting
