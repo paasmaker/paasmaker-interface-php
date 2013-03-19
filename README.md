@@ -49,19 +49,66 @@ happen, follow these steps:
 
 Add the interface to your composer.json file for your project, and then install.
 
-	# composer.phar require paasmaker/interface
-	# composer.phar install
+	# composer.phar require paasmaker/interface dev-master
 
-Now edit app/AppKernel.php, and in the construct method, add the following lines:
+Now edit app/AppKernel.php, and in the construct method, add the following lines. This
+is for Symfony 2.2. If you've already overridden __construct(), or it was already present,
+you'll need to adjust this for your installation.
 
-	$interface = new \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
-	$interface->symfonyUnpack();
+	<?php
+	// In file app/AppKernel.php
+	// ...
+	class AppKernel extends Kernel
+	{
+	    public function __construct($environment, $debug)
+	    {
+	        $interface = new \Paasmaker\PmInterface(array(), FALSE);
+	        $interface->symfonyUnpack();
+
+	        $paasmakerEnvironment = $interface->getSymfonyEnvironment('prod');
+	        $paasmakerDebug = FALSE;
+	        if($paasmakerEnvironment == 'dev')
+	        {
+	            $paasmakerDebug = TRUE;
+	        }
+
+	        parent::__construct($paasmakerEnvironment, $paasmakerDebug);
+	    }
+	// ...
+
+You can adjust which environment it runs in by setting the SYMFONY_ENV
+tag on your Paasmaker workspace. Otherwise, it assumes the prod environment.
+
+A services section in your Paasmaker manifest.yml might look like this:
+
+	services:
+	  - name: symfonysql
+	    plugin: paasmaker.service.mysql
 
 Then, in your YML files, you can refer to the services values by inserting
 values in the format "%pm.<service name>.<service value>". For example,
-your database setup might look as follows:
+the contents of app/config/parameters.yml may look like this:
 
-	TODO: Complete this.
+	parameters:
+	    database_driver:   pdo_mysql
+	    database_host:     %pm.symfonysql.hostname%
+	    database_port:     %pm.symfonysql.port%
+	    database_name:     %pm.symfonysql.database%
+	    database_user:     %pm.symfonysql.username%
+	    database_password: %pm.symfonysql.password%
+
+	    mailer_transport:  smtp
+	    mailer_host:       127.0.0.1
+	    mailer_user:       ~
+	    mailer_password:   ~
+
+	    locale:            en
+	    secret:            ThisTokenIsNotSoSecretChangeIt
+
+These values are available to all the YAML files.
+
+See the Paasmaker documentation for a full guide on how to use this
+library with Symfony 2.
 
 Example YAML configuration file
 -------------------------------
