@@ -3,8 +3,8 @@
     "type": "library",
     "description": "Paasmaker PHP interface",
     "keywords": [],
-    "homepage": "http://paasmaker.com",
-    "licence": "Apache 2.0",
+    "homepage": "http://paasmaker.org",
+    "licence": "MIT",
     "authors": [
         {
             "name": "Daniel Foote",

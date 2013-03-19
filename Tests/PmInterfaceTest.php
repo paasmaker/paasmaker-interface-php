@@ -1,5 +1,10 @@
 <?php
 
+/* Copyright (c) 2013 Daniel Foote.
+ *
+ * See the file LICENSE for copying permission.
+ * The code is under the MIT licence. */
+
 namespace Paasmaker\Tests;
 
 class PmInterfaceTest extends \PHPUnit_Framework_TestCase
