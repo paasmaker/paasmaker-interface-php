@@ -23,6 +23,8 @@ JSON format.
 
 Once you're set up, you can do the following in your startup code:
 
+	<?php
+
 	$interface = new \Paasmaker\PmInterface(array('../my-project.json'));
 	// Or to allow loading YAML files:
 	$interface = new \Paasmaker\PmInterface(array('../my-project.yml'), TRUE);
@@ -49,7 +51,7 @@ happen, follow these steps:
 
 Add the interface to your composer.json file for your project, and then install.
 
-	# composer.phar require paasmaker/interface dev-master
+	$ composer.phar require paasmaker/interface dev-master
 
 Now edit app/AppKernel.php, and in the construct method, add the following lines. This
 is for Symfony 2.2. If you've already overridden __construct(), or it was already present,
